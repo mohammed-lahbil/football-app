@@ -1,14 +1,20 @@
-import { NgModule } from '@angular/core';
+import {  NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
-import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LeagueListComponent } from './components/league-list/league-list.component';
 import { LiveScoresComponent } from './components/live-scores/live-scores.component';
 import { TeamDetailsComponent } from './components/team-details/team-details.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { provideHttpClient } from '@angular/common/http';
+import { provideRouter, RouterModule, RouterOutlet, Routes } from '@angular/router';
+
+export const routes: Routes = [
+  { path: '', redirectTo: '/leagues', pathMatch: 'full', title: 'Home' },
+  { path: 'leagues', component: LeagueListComponent, title: 'Leagues' },
+  { path: 'live-scores', component: LiveScoresComponent, title: 'Live Score' },
+  { path: 'team/:id', component: TeamDetailsComponent, title: 'Team' }
+];
 
 @NgModule({
   declarations: [
@@ -20,11 +26,14 @@ import { NavbarComponent } from './components/navbar/navbar.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
+    RouterModule,
     BrowserAnimationsModule
   ],
-  providers: [],
+  providers: [
+    provideHttpClient(),
+    provideRouter(routes)
+  ],
   bootstrap: [AppComponent]
 })
+
 export class AppModule { }
